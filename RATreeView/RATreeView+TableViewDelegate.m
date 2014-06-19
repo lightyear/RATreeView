@@ -83,8 +83,12 @@
   if ([self.delegate respondsToSelector:@selector(treeView:willSelectRowForItem:treeNodeInfo:)]) {
     RATreeNode *treeNode = [self treeNodeForIndex:indexPath.row];
     id item = [self.delegate treeView:self willSelectRowForItem:treeNode.item treeNodeInfo:[treeNode treeNodeInfo]];
-    NSIndexPath *delegateIndexPath = [self indexPathForItem:item];
-    return delegateIndexPath.row == -1 ? indexPath : delegateIndexPath;
+    if (item) {
+      NSIndexPath *delegateIndexPath = [self indexPathForItem:item];
+      return delegateIndexPath.row == -1 ? indexPath : delegateIndexPath;
+    } else {
+      return nil;
+    }
   } else {
     return indexPath;
   }
